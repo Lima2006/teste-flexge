@@ -3,8 +3,6 @@ import { LoginContext } from "../../login/contexts/login-context";
 import { useNavigate } from "react-router";
 import { api } from "../../../lib/api";
 
-export const AUTH_TOKEN_KEY = "authToken";
-
 export const useLogin = () => {
   const navigate = useNavigate();
 
@@ -17,7 +15,15 @@ export const useLogin = () => {
       const response = await api.post("/login", { email: username, password });
       const token = response?.data?.token || "";
       setUser({ token });
-      localStorage.setItem(AUTH_TOKEN_KEY, token);
+      localStorage.setItem(
+        process.env.REACT_APP_AUTH_TOKEN_KEY,
+        token
+      );
+      console.log(
+        localStorage.getItem(
+          process.env.REACT_APP_AUTH_TOKEN_KEY
+        )
+      );
       onSuccess?.();
       navigate("/");
     } catch (error) {
@@ -30,7 +36,7 @@ export const useLogin = () => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(process.env.REACT_APP_AUTH_TOKEN_KEY);
     navigate("/login");
   };
   return { user, login, logout, isLoading };
