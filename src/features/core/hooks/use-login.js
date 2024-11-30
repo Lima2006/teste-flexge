@@ -19,11 +19,6 @@ export const useLogin = () => {
         process.env.REACT_APP_AUTH_TOKEN_KEY,
         token
       );
-      console.log(
-        localStorage.getItem(
-          process.env.REACT_APP_AUTH_TOKEN_KEY
-        )
-      );
       onSuccess?.();
       navigate("/");
     } catch (error) {
