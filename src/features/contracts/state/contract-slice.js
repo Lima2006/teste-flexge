@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { message } from "antd";
 
 const initialState = {
   contracts: [],
@@ -44,10 +45,12 @@ const contractSlice = createSlice({
       state.contracts = state.contracts.filter(
         (contract) => contract._id !== action.payload
       );
+      message.success("Contrato excluído com sucesso!");
     },
     deleteContractFailure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      message.error("Erro ao excluir contrato.");
     },
   },
 });

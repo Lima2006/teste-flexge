@@ -1,11 +1,13 @@
-import { Button, Layout, Space, Table, message } from "antd";
+import { Button, Layout, Space, Table } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { api } from "../../../lib/api";
 import Header from "../../core/components/header";
 import ProtectedRoute from "../../core/components/protected-route";
-import { fetchContractsRequest } from "../state/contract-slice";
+import {
+  deleteContractRequest,
+  fetchContractsRequest,
+} from "../state/contract-slice";
 
 const ContractsScreen = () => {
   const { contracts, isLoading, totalContracts } = useSelector(
@@ -58,23 +60,16 @@ const ContractsScreen = () => {
           <Button onClick={() => navigate(`/contracts/edit/${record._id}`)}>
             Editar
           </Button>
-          <Button danger onClick={() => handleDelete(record._id)}>
+          <Button
+            danger
+            onClick={() => dispatch(deleteContractRequest(record._id))}
+          >
             Excluir
           </Button>
         </Space>
       ),
     },
   ];
-
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(`/api/contracts/${id}`);
-      message.success("Contrato excluído com sucesso!");
-      // fetchContracts(pagination.current);
-    } catch (error) {
-      message.error("Erro ao excluir contrato.");
-    }
-  };
 
   return (
     <ProtectedRoute>
