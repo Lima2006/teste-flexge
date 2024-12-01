@@ -2,11 +2,16 @@ import { Button, Form, Input, message } from "antd";
 import React from "react";
 
 import { useLogin } from "../../core/hooks/use-login";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { login, isLoading } = useLogin();
 
-  const onSuccess = () => message.success("Login bem-sucedido!");
+  const onSuccess = () => {
+    message.success("Login bem-sucedido!");
+    navigate("/");
+  };
   const onError = () => message.error("Credenciais inválidas.");
 
   return (
