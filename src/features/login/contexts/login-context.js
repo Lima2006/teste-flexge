@@ -16,6 +16,7 @@ export const LoginContextProvider = ({ children }) => {
       const token = response?.data?.token || "";
       setUser({ token });
       localStorage.setItem(process.env.REACT_APP_AUTH_TOKEN_KEY, token);
+      api.defaults.headers.Authorization = `Bearer ${token}`;
       onSuccess?.();
     } catch (error) {
       onError?.();
