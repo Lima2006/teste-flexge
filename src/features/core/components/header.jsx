@@ -4,15 +4,13 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useLogin } from "../hooks/use-login";
 
-const Header = () => {
+const Header = ({ title }) => {
   const navigate = useNavigate();
   const { logout } = useLogin();
 
   return (
     <Layout.Header className="flex justify-between items-center gap-x-4">
-      <div className="text-white text-xl font-bold">
-        Gerenciador de Contratos
-      </div>
+      {!!title && <div className="text-white text-xl font-bold">{title}</div>}
       <Menu
         className="min-w-0, flex-auto justify-end"
         theme="dark"
@@ -24,7 +22,7 @@ const Header = () => {
             key: "contracts",
             icon: <FileOutlined />,
             onClick: () => navigate("/contracts"),
-            label: "Contratos",
+            label: "Contracts",
           },
         ]}
       ></Menu>

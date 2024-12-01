@@ -1,3 +1,4 @@
+import { PlusOutlined } from "@ant-design/icons";
 import { Button, Layout, Space, Table } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,13 +59,13 @@ const ContractsScreen = () => {
       render: (_, record) => (
         <Space>
           <Button onClick={() => navigate(`/contracts/edit/${record._id}`)}>
-            Editar
+            Edit
           </Button>
           <Button
             danger
             onClick={() => dispatch(deleteContractRequest(record._id))}
           >
-            Excluir
+            Remove
           </Button>
         </Space>
       ),
@@ -74,23 +75,26 @@ const ContractsScreen = () => {
   return (
     <ProtectedRoute>
       <Layout>
-        <Header />
-        <h1>Consulta de Contratos</h1>
-        <Button
-          type="primary"
-          onClick={() => navigate("/contracts/new")}
-          style={{ marginBottom: 16 }}
-        >
-          Criar Novo Contrato
-        </Button>
-        <Table
-          columns={columns}
-          dataSource={contracts}
-          rowKey={(record) => record._id}
-          loading={isLoading}
-          pagination={pagination}
-          onChange={handleTableChange}
-        />
+        <Header title="Contracts" />
+        <Layout.Content className="px-8">
+          <div className="flex justify-start py-4">
+            <Button
+              type="primary"
+              onClick={() => navigate("/contracts/new")}
+              icon={<PlusOutlined />}
+            >
+              Create New
+            </Button>
+          </div>
+          <Table
+            columns={columns}
+            dataSource={contracts}
+            rowKey={(record) => record._id}
+            loading={isLoading}
+            pagination={pagination}
+            onChange={handleTableChange}
+          />
+        </Layout.Content>
       </Layout>
     </ProtectedRoute>
   );
