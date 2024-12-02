@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Header from "../../core/components/header";
 import ProtectedRoute from "../../core/components/protected-route";
+import SearchFilters from "../components/search-filters";
 import {
   deleteContractRequest,
   fetchContractsRequest,
@@ -20,23 +21,26 @@ const ContractsScreen = () => {
     total: totalContracts,
   });
   const [sorting, setSorting] = useState({});
+  const [search, setSearch] = useState({});
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    console.log(sorting)
     dispatch(
       fetchContractsRequest({
         page: pagination.current,
         pageSize: pagination.pageSize,
         sortBy: sorting.dataIndex,
         order: sorting.order === "ascend" ? "asc" : "desc",
+        documentNumber: search.documentNumber,
+        socialReason: search.socialReason,
+        company: search.company,
       })
     );
-  }, [dispatch, pagination, sorting]);
+  }, [dispatch, pagination, sorting, search]);
 
-  const handleTableChange = (pagination, filters, sorting) => {
+  const handleTableChange = (pagination, _, sorting) => {
     setPagination(pagination);
     setSorting(sorting);
   };
@@ -83,6 +87,7 @@ const ContractsScreen = () => {
     <ProtectedRoute>
       <Layout>
         <Header title="Contracts" />
+        <SearchFilters onFinish={setSearch} />
         <Layout.Content className="px-8">
           <div className="flex justify-start py-4">
             <Button
