@@ -81,6 +81,7 @@ const ContractsScreen = () => {
           </Button>
         </Space>
       ),
+      width: 200,
     },
   ];
 
