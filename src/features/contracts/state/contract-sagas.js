@@ -20,6 +20,9 @@ function* fetchContracts(action) {
         limit: action.payload.pageSize,
         sortBy: action.payload.sortBy,
         order: action.payload.order,
+        documentNumber: action.payload.documentNumber,
+        socialReason: action.payload.socialReason,
+        company: action.payload.company,
       },
     });
     yield put(fetchContractsSuccess(response.data));
