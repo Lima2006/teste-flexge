@@ -12,6 +12,7 @@ import {
 } from "../state/contract-slice";
 
 const ContractsScreen = () => {
+  document.title = "Contracts";
   const { contracts, isLoading, totalContracts } = useSelector(
     (state) => state.contracts
   );
@@ -80,6 +81,7 @@ const ContractsScreen = () => {
           </Button>
         </Space>
       ),
+      width: 200,
     },
   ];
 
@@ -87,17 +89,17 @@ const ContractsScreen = () => {
     <ProtectedRoute>
       <Layout>
         <Header title="Contracts" />
-        <SearchFilters onFinish={setSearch} />
-        <Layout.Content className="px-8">
-          <div className="flex justify-start py-4">
+        <Layout.Content className="px-8 py-4">
+          <div className="flex justify-end">
             <Button
               type="primary"
               onClick={() => navigate("/contracts/new")}
               icon={<PlusOutlined />}
             >
-              Create New
+              New Contract
             </Button>
           </div>
+          <SearchFilters onFinish={setSearch} />
           <Table
             columns={columns}
             dataSource={contracts}
