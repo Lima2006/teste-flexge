@@ -19,21 +19,26 @@ const ContractsScreen = () => {
     pageSize: 10,
     total: totalContracts,
   });
+  const [sorting, setSorting] = useState({});
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    console.log(sorting)
     dispatch(
       fetchContractsRequest({
         page: pagination.current,
         pageSize: pagination.pageSize,
+        sortBy: sorting.dataIndex,
+        order: sorting.order === "ascend" ? "asc" : "desc",
       })
     );
-  }, [dispatch, pagination.current]);
+  }, [dispatch, pagination, sorting]);
 
-  const handleTableChange = (pagination) => {
-    setPagination({ ...pagination });
+  const handleTableChange = (pagination, filters, sorting) => {
+    setPagination(pagination);
+    setSorting(sorting);
   };
 
   const columns = [
@@ -46,11 +51,13 @@ const ContractsScreen = () => {
       title: "Social Reason",
       dataIndex: "socialReason",
       key: "socialReason",
+      sorter: true,
     },
     {
       title: "Company",
       dataIndex: "company",
       key: "company",
+      sorter: true,
       render: (company) => company?.name,
     },
     {

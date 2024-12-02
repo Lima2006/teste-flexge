@@ -15,7 +15,12 @@ import { api } from "../../../lib/api";
 function* fetchContracts(action) {
   try {
     const response = yield call(api.get, "/contracts", {
-      params: { page: action.payload.page, limit: action.payload.pageSize },
+      params: {
+        page: action.payload.page,
+        limit: action.payload.pageSize,
+        sortBy: action.payload.sortBy,
+        order: action.payload.order,
+      },
     });
     yield put(fetchContractsSuccess(response.data));
   } catch (error) {
