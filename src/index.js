@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import LoginPage from "./features/login/screens/login";
-import { LoginContextProvider } from "./features/login/contexts/login-context";
+import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router";
 import HomePage from "./features/company/screens/home";
 import ContractsScreen from "./features/contracts/screens/contracts-screen";
-import { Provider } from "react-redux";
-import { store } from "./lib/store";
+import CreateContractScreen from "./features/contracts/screens/create-contract-screen";
+import { LoginContextProvider } from "./features/login/contexts/login-context";
+import LoginPage from "./features/login/screens/login";
 import "./index.css";
+import { store } from "./lib/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,6 +20,7 @@ root.render(
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contracts" element={<ContractsScreen />} />
+            <Route path="/contracts/new" element={<CreateContractScreen />} />
           </Routes>
         </BrowserRouter>
       </Provider>
