@@ -1,33 +1,21 @@
 import { Button, Form, Input, message } from "antd";
-import React, { useContext, useState } from "react";
+import React from "react";
+
+import { useLogin } from "../../core/hooks/use-login";
 import { useNavigate } from "react-router";
-import { LoginContext } from "../contexts/login-context";
-import { api } from "../../../lib/api";
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
-  const { setUser } = useContext(LoginContext);
   const navigate = useNavigate();
+  const { login, isLoading } = useLogin();
 
-  const handleLogin = async ({ username, password }) => {
-    setLoading(true);
-    try {
-      const response = await api.post("/login", { email: username, password });
-      const token = response?.data?.token || "";
-      setUser({ token });
-      localStorage.setItem("token", token);
-      message.success("Login bem-sucedido!");
-      navigate("/");
-    } catch (error) {
-      message.error("Credenciais inválidas.");
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+  const onSuccess = () => {
+    message.success("Login bem-sucedido!");
+    navigate("/");
   };
+  const onError = () => message.error("Credenciais inválidas.");
 
   return (
-    <Form onFinish={handleLogin}>
+    <Form onFinish={(params) => login({ ...params, onSuccess, onError })}>
       <Form.Item
         name="username"
         rules={[{ required: true, message: "Informe o usuário" }]}
@@ -40,7 +28,7 @@ const Login = () => {
       >
         <Input.Password placeholder="Senha" />
       </Form.Item>
-      <Button type="primary" htmlType="submit" loading={loading}>
+      <Button type="primary" htmlType="submit" loading={isLoading}>
         Entrar
       </Button>
     </Form>
