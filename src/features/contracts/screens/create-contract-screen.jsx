@@ -8,6 +8,7 @@ import { addContractRequest } from "../state/contract-slice";
 import { useNavigate } from "react-router";
 
 const CreateContractScreen = () => {
+  document.title = "Create Contract";
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (

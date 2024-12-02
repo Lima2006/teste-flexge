@@ -12,6 +12,7 @@ import {
 } from "../state/contract-slice";
 
 const ContractsScreen = () => {
+  document.title = "Contracts";
   const { contracts, isLoading, totalContracts } = useSelector(
     (state) => state.contracts
   );
