@@ -9,6 +9,7 @@ import { LoginContextProvider } from "./features/login/contexts/login-context";
 import LoginPage from "./features/login/screens/login-screen";
 import "./index.css";
 import { store } from "./lib/store";
+import EditContractScreen from "./features/contracts/screens/edit-contract-screen";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -21,6 +22,7 @@ root.render(
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contracts" element={<ContractsScreen />} />
             <Route path="/contracts/new" element={<CreateContractScreen />} />
+            <Route path="/contracts/edit/:contractId" element={<EditContractScreen />} />
           </Routes>
         </BrowserRouter>
       </Provider>
