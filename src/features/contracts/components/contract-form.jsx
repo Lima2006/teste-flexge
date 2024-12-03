@@ -1,6 +1,6 @@
-import { PlusOutlined, RollbackOutlined } from "@ant-design/icons";
+import { EditOutlined, RollbackOutlined } from "@ant-design/icons";
 import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
-import { parseISO } from "date-fns";
+import dayjs from "dayjs";
 import React from "react";
 import CompanySelect from "./company-select";
 import ProductsField from "./products-field";
@@ -15,11 +15,12 @@ const ContractForm = ({ className, onSubmit, initialValues }) => {
       form.setFieldsValue({
         ...initialValues,
         dates: {
+          ...initialValues.dates,
           contractStartsIn: initialValues.dates?.contractStartsIn
-            ? parseISO(initialValues.dates.contractStartsIn)
+            ? dayjs(initialValues.dates.contractStartsIn)
             : null,
           contractEndsIn: initialValues.dates?.contractEndsIn
-            ? parseISO(initialValues.dates.contractEndsIn)
+            ? dayjs(initialValues.dates.contractEndsIn)
             : null,
         },
       });
@@ -36,12 +37,12 @@ const ContractForm = ({ className, onSubmit, initialValues }) => {
       ...values,
       products: products.map((product) => ({
         ...product,
-        beginningOfTerm: product.beginningOfTerm?.toISOString(),
+        beginningOfTerm: product.beginningOfTerm?.toISOString?.(),
       })),
       dates: {
         ...values.dates,
-        contractStartsIn: values.dates?.contractStartsIn?.toISOString(),
-        contractEndsIn: values.dates?.contractEndsIn?.toISOString(),
+        contractStartsIn: values.dates?.contractStartsIn?.toISOString?.(),
+        contractEndsIn: values.dates?.contractEndsIn?.toISOString?.(),
       },
     });
   };
@@ -146,7 +147,12 @@ const ContractForm = ({ className, onSubmit, initialValues }) => {
         </Form.Item>
       </div>
       <div className="flex gap-x-3">
-        <Form.Item className="w-full" label="Zip code" name="zipCode">
+        <Form.Item
+          className="w-full"
+          label="Zip code"
+          name="zipCode"
+          rules={[{ required: true, message: "Enter a zip code" }]}
+        >
           <Input placeholder="Example: 40140-110" />
         </Form.Item>
 
@@ -154,7 +160,10 @@ const ContractForm = ({ className, onSubmit, initialValues }) => {
           className="w-full"
           label="Email"
           name="email"
-          rules={[{ type: "email", message: "Enter a valid email" }]}
+          rules={[
+            { type: "email", message: "Enter a valid email" },
+            { required: true, message: "Enter a email" },
+          ]}
         >
           <Input placeholder="Example: contact@bright-solutions.com" />
         </Form.Item>
@@ -194,7 +203,11 @@ const ContractForm = ({ className, onSubmit, initialValues }) => {
             className="w-full"
           />
         </Form.Item>
-        <Form.Item className="w-full" label="Upload the contract">
+        <Form.Item
+          className="w-full"
+          label="Upload the contract"
+          name="fileUrl"
+        >
           <Input placeholder="Remote file url" />
         </Form.Item>
       </div>
@@ -217,8 +230,8 @@ const ContractForm = ({ className, onSubmit, initialValues }) => {
         >
           Discard Changes
         </Button>
-        <Button icon={<PlusOutlined />} type="primary" htmlType="submit">
-          Create Contract
+        <Button icon={<EditOutlined />} type="primary" htmlType="submit">
+          {initialValues ? "Edit Contract" : "Create Contract"}
         </Button>
       </div>
     </Form>
