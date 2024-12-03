@@ -6,7 +6,7 @@ import HomePage from "./features/company/screens/home";
 import ContractsScreen from "./features/contracts/screens/contracts-screen";
 import CreateContractScreen from "./features/contracts/screens/create-contract-screen";
 import { LoginContextProvider } from "./features/login/contexts/login-context";
-import LoginPage from "./features/login/screens/login";
+import LoginPage from "./features/login/screens/login-screen";
 import "./index.css";
 import { store } from "./lib/store";
 
