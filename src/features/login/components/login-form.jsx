@@ -7,10 +7,10 @@ const LoginForm = (props) => {
   const { login, isLoading } = useLogin();
 
   const onSuccess = () => {
-    message.success("Login bem-sucedido!");
+    message.success("Login successful!");
     navigate("/");
   };
-  const onError = () => message.error("Credenciais inválidas.");
+  const onError = () => message.error("Invalid Credentials.");
 
   return (
     <Form
