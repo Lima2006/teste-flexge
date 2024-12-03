@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Layout, Space, Table } from "antd";
+import { Button, Layout, message, Space, Table } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -13,7 +13,7 @@ import {
 
 const ContractsScreen = () => {
   document.title = "Contracts";
-  const { contracts, isLoading, totalContracts } = useSelector(
+  const { contracts, isLoading, error, totalContracts } = useSelector(
     (state) => state.contracts
   );
   const [pagination, setPagination] = useState({
@@ -75,7 +75,16 @@ const ContractsScreen = () => {
           </Button>
           <Button
             danger
-            onClick={() => dispatch(deleteContractRequest(record._id))}
+            onClick={() => {
+              dispatch(deleteContractRequest(record._id));
+              if (!isLoading) {
+                if (!error) {
+                  message.success("Contract deleted successfully!");
+                } else {
+                  message.error("Error on deleting contract.");
+                }
+              }
+            }}
           >
             Remove
           </Button>
