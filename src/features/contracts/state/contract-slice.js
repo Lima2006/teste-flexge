@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { message } from "antd";
 
 const initialState = {
   contracts: [],
@@ -26,6 +25,18 @@ const contractSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    fetchSingleContractRequest: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    fetchSingleContractSuccess: (state, action) => {
+      state.isLoading = false;
+      state.contracts = [action.payload];
+    },
+    fetchSingleContractFailure: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
     addContractRequest: (state) => {
       state.isLoading = true;
     },
@@ -37,6 +48,22 @@ const contractSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    updateContractRequest: (state) => {
+      state.isLoading = true;
+    },
+    updateContractSuccess: (state, action) => {
+      state.isLoading = false;
+      state.contracts.map((contract) => {
+        if (contract._id !== action.payload._id) {
+          return action.payload;
+        }
+        return contract;
+      });
+    },
+    updateContractFailure: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
     deleteContractRequest: (state) => {
       state.isLoading = true;
     },
@@ -45,12 +72,10 @@ const contractSlice = createSlice({
       state.contracts = state.contracts.filter(
         (contract) => contract._id !== action.payload
       );
-      message.success("Contrato excluído com sucesso!");
     },
     deleteContractFailure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      message.error("Erro ao excluir contrato.");
     },
   },
 });
@@ -59,9 +84,15 @@ export const {
   fetchContractsRequest,
   fetchContractsSuccess,
   fetchContractsFailure,
+  fetchSingleContractRequest,
+  fetchSingleContractSuccess,
+  fetchSingleContractFailure,
   addContractRequest,
   addContractSuccess,
   addContractFailure,
+  updateContractRequest,
+  updateContractSuccess,
+  updateContractFailure,
   deleteContractRequest,
   deleteContractSuccess,
   deleteContractFailure,

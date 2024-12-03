@@ -1,16 +1,22 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import { api } from "../../../lib/api";
 import {
-  fetchContractsRequest,
-  fetchContractsSuccess,
-  fetchContractsFailure,
+  addContractFailure,
   addContractRequest,
   addContractSuccess,
-  addContractFailure,
+  deleteContractFailure,
   deleteContractRequest,
   deleteContractSuccess,
-  deleteContractFailure,
+  fetchContractsFailure,
+  fetchContractsRequest,
+  fetchContractsSuccess,
+  fetchSingleContractFailure,
+  fetchSingleContractRequest,
+  fetchSingleContractSuccess,
+  updateContractFailure,
+  updateContractRequest,
+  updateContractSuccess,
 } from "./contract-slice";
-import { api } from "../../../lib/api";
 
 function* fetchContracts(action) {
   try {
@@ -31,12 +37,35 @@ function* fetchContracts(action) {
   }
 }
 
+function* fetchSingleContract(action) {
+  try {
+    const response = yield call(api.get, `/contracts/${action.payload}`);
+    yield put(fetchSingleContractSuccess(response.data));
+  } catch (error) {
+    yield put(fetchSingleContractFailure(error.message));
+  }
+}
+
 function* addContract(action) {
   try {
     const response = yield call(api.post, "/contracts", action.payload);
     yield put(addContractSuccess(response.data));
   } catch (error) {
     yield put(addContractFailure(error.message));
+  }
+}
+
+function* updateContract(action) {
+  try {
+    const response = yield call(
+      api.put,
+      `/contracts/${action.payload[0]}`,
+      action.payload[1]
+    );
+    console.log(response)
+    yield put(updateContractSuccess(response.data.contract));
+  } catch (error) {
+    yield put(updateContractFailure(error.message));
   }
 }
 
@@ -51,6 +80,8 @@ function* deleteContract(action) {
 
 export default function* contractSaga() {
   yield takeLatest(fetchContractsRequest.type, fetchContracts);
+  yield takeLatest(fetchSingleContractRequest.type, fetchSingleContract);
   yield takeLatest(addContractRequest.type, addContract);
+  yield takeLatest(updateContractRequest.type, updateContract);
   yield takeLatest(deleteContractRequest.type, deleteContract);
 }
