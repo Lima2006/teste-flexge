@@ -1,5 +1,13 @@
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Form, Input, InputNumber, Table } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Table,
+} from "antd";
 import { format } from "date-fns";
 import React from "react";
 
@@ -15,9 +23,12 @@ const ProductsField = ({ onChange, value }) => {
 
   const handleAddProduct = () => {
     if (newProduct.name && newProduct.finalUnitPrice) {
-      // eslint-disable-next-line no-loop-func
-      onChange([...value, newProduct]);
-      setNewProduct({ name: "", amount: 1 });
+      if (value?.some?.((product) => newProduct.name === product.name)) {
+        message.error("There is already a product with that name");
+      } else {
+        onChange([...value, newProduct]);
+        setNewProduct({ name: "", amount: 1 });
+      }
     }
   };
 
@@ -133,7 +144,8 @@ const ProductsField = ({ onChange, value }) => {
             title: "Beginning of Term",
             dataIndex: "beginningOfTerm",
             key: "beginningOfTerm",
-            render: (isoString) => format(isoString, "dd/MM/yyyy"),
+            render: (isoString) =>
+              isoString ? format(isoString, "dd/MM/yyyy") : "N/A",
           },
           {
             title: "Actions",
