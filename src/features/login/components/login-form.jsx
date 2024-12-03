@@ -1,38 +1,47 @@
 import { Button, Form, Input, message } from "antd";
-import React from "react";
-
-import { useLogin } from "../../core/hooks/use-login";
 import { useNavigate } from "react-router";
+import { useLogin } from "../../core/hooks/use-login";
 
-const Login = () => {
+const LoginForm = (props) => {
   const navigate = useNavigate();
   const { login, isLoading } = useLogin();
 
   const onSuccess = () => {
-    message.success("Login bem-sucedido!");
+    message.success("Login successful!");
     navigate("/");
   };
-  const onError = () => message.error("Credenciais inválidas.");
+  const onError = () => message.error("Invalid Credentials.");
 
   return (
-    <Form onFinish={(params) => login({ ...params, onSuccess, onError })}>
+    <Form
+      onFinish={(params) => login({ ...params, onSuccess, onError })}
+      layout="vertical"
+      {...props}
+    >
       <Form.Item
+        label="Usuário"
         name="username"
         rules={[{ required: true, message: "Informe o usuário" }]}
       >
         <Input placeholder="Usuário" />
       </Form.Item>
       <Form.Item
+        label="Senha"
         name="password"
         rules={[{ required: true, message: "Informe a senha" }]}
       >
         <Input.Password placeholder="Senha" />
       </Form.Item>
-      <Button type="primary" htmlType="submit" loading={isLoading}>
+      <Button
+        className="w-full"
+        type="primary"
+        htmlType="submit"
+        loading={isLoading}
+      >
         Entrar
       </Button>
     </Form>
   );
 };
 
-export default Login;
+export default LoginForm;

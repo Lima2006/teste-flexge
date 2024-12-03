@@ -60,4 +60,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 **Others**
 - TailwindCSS
-- Date-fns
+- date-fns
+- dayjs
